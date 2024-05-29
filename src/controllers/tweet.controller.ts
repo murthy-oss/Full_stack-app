@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { getTweetRepo, createTweetRepo, updateTweetRepo, deleteTweetRepo } from "../repositories/tweet.repository";
+import { getTweetRepo, createTweetRepo, updateTweetRepo, deleteTweetRepo, getAllTweetsRepo } from "../repositories/tweet.repository";
 import { ITweetInterface } from "../database/interfaces/tweet.interface";
 import { deleteUserWithTweetIdRepo, updateUserWithTweetIdRepo } from "../repositories/user.repository";
 // get controller funtion
@@ -80,6 +80,23 @@ export const deleteTweetController = async (req: Request, res: Response) => {
         }
         else {
             res.status(500).json({ "error": "Tweet Not deleted" });
+        }
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ "error": error });
+    }
+}
+export const getAllTweetController = async (req: Request, res: Response) => {
+    // const tweetId = req.params.userId as String;
+    //console.log(req.params);
+    try {
+        const tweets = await getAllTweetsRepo();
+        //console.log(tweet);
+        if (tweets) {
+            res.status(200).json({ "data": tweets });
+        }
+        else {
+            res.status(500).json({ "error": "Tweets Not Found" });
         }
     } catch (error) {
         console.log(error);
