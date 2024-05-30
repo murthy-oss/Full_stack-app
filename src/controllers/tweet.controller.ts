@@ -4,7 +4,7 @@ import { ITweetInterface } from "../database/interfaces/tweet.interface";
 import { deleteUserWithTweetIdRepo, updateUserWithTweetIdRepo } from "../repositories/user.repository";
 // get controller funtion
 export const getTweetController = async (req: Request, res: Response) => {
-    const tweetId = req.params.userId as String;
+    const tweetId = req.params.tweetId as String;
     //console.log(req.params);
     try {
         const tweet = await getTweetRepo(tweetId);
