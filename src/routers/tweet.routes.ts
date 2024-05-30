@@ -6,7 +6,7 @@ import { getTweetController, createTweetController, updateTweetController, delet
 
 const tweetRouter=Router();
 tweetRouter.get("/:tweetId", getTweetController);
-tweetRouter.get("/", getAllTweetController);
+tweetRouter.get("/get/all", getAllTweetController);
 tweetRouter.post("/", createTweetController);
 tweetRouter.put("/", updateTweetController);
 tweetRouter.delete("/:userId", deleteTweetController);
