@@ -9,21 +9,21 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteTweetController = exports.updateTweetController = exports.createTweetController = exports.getTweetController = void 0;
+exports.getAllTweetController = exports.deleteTweetController = exports.updateTweetController = exports.createTweetController = exports.getTweetController = void 0;
 const tweet_repository_1 = require("../repositories/tweet.repository");
 const user_repository_1 = require("../repositories/user.repository");
 // get controller funtion
 const getTweetController = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const tweetId = req.params.userId;
-    //console.log(req.params);
+    const tweetId = req.params.tweetId;
     try {
+        console.log('tweetId' + tweetId);
         const tweet = yield (0, tweet_repository_1.getTweetRepo)(tweetId);
-        //console.log(tweet);
+        // console.log('tweet'+tweetId);
         if (tweet) {
             res.status(200).json({ "data": tweet });
         }
         else {
-            res.status(500).json({ "error": "Tweet Not Found" });
+            res.status(404).json({ "error": tweet });
         }
     }
     catch (error) {
@@ -76,9 +76,10 @@ const updateTweetController = (req, res) => __awaiter(void 0, void 0, void 0, fu
 exports.updateTweetController = updateTweetController;
 //delete controller
 const deleteTweetController = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const tweetId = req.params.userId;
+    const tweetId = req.params.tweetId;
     const tweet = req.body;
     try {
+        console.log("tweetId1" + tweetId);
         const success = yield (0, tweet_repository_1.deleteTweetRepo)(tweetId);
         if (success) {
             const userDelete = yield (0, user_repository_1.deleteUserWithTweetIdRepo)(tweet.adminId, tweet.tweetid);
@@ -99,3 +100,22 @@ const deleteTweetController = (req, res) => __awaiter(void 0, void 0, void 0, fu
     }
 });
 exports.deleteTweetController = deleteTweetController;
+const getAllTweetController = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    // const tweetId = req.params.userId as String;
+    //console.log(req.params);
+    try {
+        const tweets = yield (0, tweet_repository_1.getAllTweetsRepo)();
+        //console.log(tweet);
+        if (tweets) {
+            res.status(200).json({ "data": tweets });
+        }
+        else {
+            res.status(500).json({ "error": "Tweets Not Found" });
+        }
+    }
+    catch (error) {
+        console.log(error);
+        res.status(500).json({ "error": error });
+    }
+});
+exports.getAllTweetController = getAllTweetController;

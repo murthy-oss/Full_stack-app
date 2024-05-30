@@ -20,6 +20,7 @@ export const getTweetRepo=async(tweetId:String):Promise<ITweetInterface |null>=>
 export const deleteTweetRepo=async(tweetId:String):Promise<boolean>=>{
     try{
         const deleted=await TweetMOdel.findOneAndDelete({tweetid:tweetId});
+        console.log(deleted);
         if(deleted){
             return true;
         }

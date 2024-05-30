@@ -4,16 +4,18 @@ import { ITweetInterface } from "../database/interfaces/tweet.interface";
 import { deleteUserWithTweetIdRepo, updateUserWithTweetIdRepo } from "../repositories/user.repository";
 // get controller funtion
 export const getTweetController = async (req: Request, res: Response) => {
-    const tweetId = req.params.userId as String;
-    //console.log(req.params);
+    const tweetId = req.params.tweetId  as String ;
+
     try {
+        console.log('tweetId'+tweetId);
+
         const tweet = await getTweetRepo(tweetId);
-        //console.log(tweet);
+       // console.log('tweet'+tweetId);
         if (tweet) {
             res.status(200).json({ "data": tweet });
         }
         else {
-            res.status(500).json({ "error": "Tweet Not Found" });
+            res.status(404).json({ "error": tweet });
         }
     } catch (error) {
         console.log(error);
@@ -63,9 +65,10 @@ export const updateTweetController = async (req: Request, res: Response) => {
 }
 //delete controller
 export const deleteTweetController = async (req: Request, res: Response) => {
-    const tweetId = req.params.userId as String;
+    const tweetId = req.params.tweetId as String;
     const tweet: ITweetInterface = req.body;
     try {
+        console.log("tweetId1"+tweetId);
         const success = await deleteTweetRepo(tweetId);
         if (success) {
 
